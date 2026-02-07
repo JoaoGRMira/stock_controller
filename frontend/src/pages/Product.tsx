@@ -9,7 +9,7 @@ import { useProducts } from "@/hooks/useProducts";
 import { Product } from "@/types/product";
 import { toast } from "@/hooks/use-toast";
 
-const Index = () => {
+const Products = () => {
   const {
     products,
     totalCount,
@@ -147,4 +147,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Products;
