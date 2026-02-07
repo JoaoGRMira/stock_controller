@@ -5,6 +5,7 @@ import com.products.repository.ProductRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ProductService {
@@ -19,9 +20,19 @@ public class ProductService {
         return productRepo.listAll();
     }
 
+    public Optional<Product> findById(Long id) {
+        return Optional.ofNullable(productRepo.findById(id));
+    }
+
     @Transactional
     public Product create(Product product) {
         productRepo.persist(product);
+        return product;
+    }
+
+    @Transactional
+    public Product update(Product product) {
+        productRepo.getEntityManager().merge(product);
         return product;
     }
 

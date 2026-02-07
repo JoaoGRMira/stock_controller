@@ -25,7 +25,8 @@ public class ProductController {
     @GET
     @Path("/{id}")
     public Product getById(@PathParam("id") Long id) {
-        return productService.findById(id);
+        return productService.findById(id)
+            .orElseThrow(() -> new NotFoundException("Product not found"));
     }
 
     @POST

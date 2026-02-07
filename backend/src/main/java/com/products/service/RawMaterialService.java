@@ -5,6 +5,7 @@ import com.products.repository.RawMaterialRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class RawMaterialService {
@@ -19,9 +20,19 @@ public class RawMaterialService {
         return rawMaterialRepo.listAll();
     }
 
+    public Optional<RawMaterial> findById(Long id) {
+        return Optional.ofNullable(rawMaterialRepo.findById(id));
+    }
+
     @Transactional
     public RawMaterial create(RawMaterial rawMaterial) {
         rawMaterialRepo.persist(rawMaterial);
+        return rawMaterial;
+    }
+
+    @Transactional
+    public RawMaterial update(RawMaterial rawMaterial) {
+        rawMaterialRepo.getEntityManager().merge(rawMaterial);
         return rawMaterial;
     }
 

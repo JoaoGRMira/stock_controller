@@ -25,8 +25,9 @@ public class RawMaterialController {
     @GET
     @Path("/{id}")
     public RawMaterial getById(@PathParam("id") Long id) {
-        return rawMaterialService.findById(id);
+        return rawMaterialService.findById(id).orElseThrow(() -> new NotFoundException("Raw material not found"));
     }
+
 
     @POST
     public RawMaterial create(RawMaterial rawMaterial) {
