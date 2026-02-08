@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Plus, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SearchBar } from "@/components/inventory/SearchBar";
-import { MaterialsTable } from "@/components/inventory/MaterialTable";
-import { MaterialFormDialog } from "@/components/inventory/MaterialFormDialog";
-import { DeleteConfirmDialog } from "@/components/inventory/DeleteConfirmDialog";
+import { SearchBar } from "@/components/SearchBar";
+import { MaterialsTable } from "@/components/MaterialTable";
+import { MaterialFormDialog } from "@/components/MaterialFormDialog";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { useMaterials } from "@/hooks/useMaterials";
 import { Material, MaterialFormData } from "@/types/material";
 

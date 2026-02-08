@@ -3,9 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NotFound from "./pages/NotFound";
-import Products from "./pages/Product";
-import RawMaterial from "./pages/RawMaterial";
+import { NotFound, Products, RawMaterial, ProductRawMaterial } from "./pages";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +16,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Products />} />
           <Route path="/raw-materials" element={<RawMaterial />} />
+          <Route path="/product-raw-materials" element={<ProductRawMaterial />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

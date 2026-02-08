@@ -8,33 +8,30 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Material } from "@/types/material";
 
 interface DeleteConfirmDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  material: Material | null;
   onConfirm: () => void;
-  productName?: string;
 }
 
 export function DeleteConfirmDialog({
   open,
   onOpenChange,
+  material,
   onConfirm,
-  productName,
 }: DeleteConfirmDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent className="animate-scale-in">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Product</AlertDialogTitle>
+          <AlertDialogTitle>Delete Material</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete{" "}
-            {productName ? (
-              <span className="font-medium text-foreground">"{productName}"</span>
-            ) : (
-              "this product"
-            )}
-            ? This action cannot be undone.
+            <span className="font-medium text-foreground">{material?.name}</span>?
+            This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
