@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { Plus, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SearchBar } from "@/components/SearchBar";
-import { MaterialsTable } from "@/components/MaterialTable";
-import { MaterialFormDialog } from "@/components/MaterialFormDialog";
-import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { useMaterials } from "@/hooks/useMaterials";
 import { Material, MaterialFormData } from "@/types/material";
+import { DeleteMaterialConfirmDialog, MaterialFormDialog, MaterialsTable, SearchBar } from "@/components";
 
 const RawMaterial = () => {
   const {
@@ -115,7 +112,7 @@ const RawMaterial = () => {
           onSubmit={handleFormSubmit}
         />
 
-        <DeleteConfirmDialog
+        <DeleteMaterialConfirmDialog
           open={deleteDialogOpen}
           onOpenChange={setDeleteDialogOpen}
           material={selectedMaterial}

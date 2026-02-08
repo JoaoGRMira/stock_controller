@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Plus, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProductTable } from "@/components/ProductTable";
-import { ProductForm } from "@/components/ProductForm";
-import { SearchFilter } from "@/components/SearchFilter";
-import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
+import { ProductTable, ProductForm, ProductSearchFilter, DeleteProductConfirmDialog} from "@/components";
 import { useProducts } from "@/hooks/useProducts";
 import { Product } from "@/types/product";
 import { toast } from "@/hooks/use-toast";
@@ -106,7 +103,7 @@ const Products = () => {
 
         {/* Actions Bar */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <SearchFilter value={searchQuery} onChange={setSearchQuery} />
+          <ProductSearchFilter value={searchQuery} onChange={setSearchQuery} />
           <Button onClick={() => setFormOpen(true)} className="sm:ml-auto">
             <Plus className="h-4 w-4 mr-2" />
             Add Product
@@ -136,7 +133,7 @@ const Products = () => {
         />
 
         {/* Delete Confirmation Dialog */}
-        <DeleteConfirmDialog
+        <DeleteProductConfirmDialog
           open={deleteDialogOpen}
           onOpenChange={setDeleteDialogOpen}
           onConfirm={handleConfirmDelete}

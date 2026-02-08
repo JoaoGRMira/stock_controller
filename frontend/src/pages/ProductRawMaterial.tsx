@@ -1,5 +1,4 @@
-import { ProductHeader } from '@/components/ProductHeader';
-import { RawMaterialsSection } from '@/components/RawMaterialsSection';
+import { ProductHeader, RawMaterialsSection } from '@/components';
 import { mockProduct, mockRawMaterials } from '@/data/mockData';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
