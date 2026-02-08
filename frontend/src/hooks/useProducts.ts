@@ -1,56 +1,77 @@
-import { useState, useMemo } from "react";
-import { Product } from "@/types/product";
-
-const initialProducts: Product[] = [
-  { id: "1", name: "Wireless Bluetooth Headphones", price: 79.99 },
-  { id: "2", name: "Ergonomic Office Chair", price: 299.00 },
-  { id: "3", name: "Mechanical Keyboard", price: 149.99 },
-  { id: "4", name: "27-inch 4K Monitor", price: 449.00 },
-  { id: "5", name: "USB-C Hub Adapter", price: 49.99 },
-];
+import { useMemo, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { productService } from "@/services/product";
+import type { Product, CreateProductDTO } from "@/types/product";
 
 export function useProducts() {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const queryClient = useQueryClient();
+
+  // 🔎 Search state
   const [searchQuery, setSearchQuery] = useState("");
 
+  // 📦 Fetch products
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: productService.findAll,
+  });
+
+  // 🔍 Frontend filtering
   const filteredProducts = useMemo(() => {
-    if (!searchQuery.trim()) return products;
-    
+    if (!searchQuery) return products;
+
     const query = searchQuery.toLowerCase();
-    return products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(query) ||
-        product.price.toString().includes(query)
+
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(query)
     );
   }, [products, searchQuery]);
 
-  const addProduct = (data: Omit<Product, "id">) => {
-    const newProduct: Product = {
-      ...data,
-      id: crypto.randomUUID(),
-    };
-    setProducts((prev) => [...prev, newProduct]);
-  };
+  // ➕ Create
+  const createMutation = useMutation({
+    mutationFn: (data: CreateProductDTO) =>
+      productService.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
-  const updateProduct = (id: string, data: Omit<Product, "id">) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === id ? { ...product, ...data } : product
-      )
-    );
-  };
+  // ✏️ Update
+  const updateMutation = useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: CreateProductDTO;
+    }) => productService.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
-  const deleteProduct = (id: string) => {
-    setProducts((prev) => prev.filter((product) => product.id !== id));
-  };
+  // 🗑️ Delete
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) =>
+      productService.remove(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
   return {
+    // data
     products: filteredProducts,
     totalCount: products.length,
+    isLoading,
+
+    // search
     searchQuery,
     setSearchQuery,
-    addProduct,
-    updateProduct,
-    deleteProduct,
+
+    // actions
+    addProduct: createMutation.mutate,
+    updateProduct: (id: number, data: CreateProductDTO) =>
+      updateMutation.mutate({ id, data }),
+    deleteProduct: deleteMutation.mutate,
   };
 }

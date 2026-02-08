@@ -1,9 +1,7 @@
 export interface Material {
-  id: string;
+  id: number;
   name: string;
   quantity: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export type MaterialFormData = {
