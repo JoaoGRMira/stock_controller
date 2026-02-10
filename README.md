@@ -72,7 +72,7 @@ quarkus.hibernate-orm.database.generation=update
 `./mvnw quarkus:dev`
 
 Backend will be available at:
-http://localhost:8080
+`http://localhost:8080`
 
 ---
 
@@ -106,6 +106,7 @@ GET    /products/{id}
 POST   /products
 PUT    /products/{id}
 DELETE /products/{id}
+```
 
 ---
 
@@ -114,6 +115,7 @@ GET    /raw-materials
 POST   /raw-materials
 PUT    /raw-materials/{id}
 DELETE /raw-materials/{id}
+```
 
 ---
 
@@ -121,33 +123,36 @@ DELETE /raw-materials/{id}
 GET    /products/{productId}/raw-materials
 POST   /products/{productId}/raw-materials
 DELETE /products/{productId}/raw-materials/{id}
+```
 
 ---
 
 ### Payload example:
 
-`{
+```{
   "rawMaterialId": 1,
   "requiredQuantity": 2.5
-}`
+}
+```
 
 ---
 
-```Production
-GET /production
+### Production
 
----
+```GET /production
+```
 
 Response example:
 
-`[
+```[
   {
     "productId": 1,
     "productName": "Product A",
     "quantityProduced": 10,
     "totalValue": 5000
   }
-]`
+]
+```
 
 ---
 
