@@ -1,106 +1,85 @@
-import { useState, useMemo } from 'react';
-import { Package, DollarSign, Layers, TrendingUp } from 'lucide-react';
-import { StatsCard, ProductCard, ProductionSearchFilter} from '@/components/'
-import { mockProducts, categories, summaryStats } from '@/data/mockProducts';
+import { Package, DollarSign, Layers, TrendingUp } from "lucide-react";
+import {
+  StatsCard,
+  ProductCard,
+  ProductionSearchFilter,
+} from "@/components";
+import { useProduction } from "@/hooks/useProduction";
 
-const Index = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+const Production = () => {
+  const {
+    products,
+    isLoading,
+    searchTerm,
+    setSearchTerm,
+    summaryStats,
+  } = useProduction();
 
-  const filteredProducts = useMemo(() => {
-    return mockProducts.filter((product) => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchTerm, selectedCategory]);
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
-
-  const formatNumber = (value: number) => {
-    return new Intl.NumberFormat('en-US').format(value);
-  };
+  if (isLoading) {
+    return <div className="p-8">Loading production...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <header className="mb-8 animate-fade-in">
-          <h1 className="text-display text-foreground">Production Dashboard</h1>
-          <p className="text-lg text-muted-foreground mt-2">
-            Products available for manufacturing based on current raw material inventory
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <header className="mb-8">
+          <h1 className="text-display">Production Dashboard</h1>
+          <p className="text-muted-foreground mt-2">
+            Available production based on raw material stock
           </p>
         </header>
 
-        {/* Stats Grid */}
+        {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatsCard
             title="Total Products"
             value={summaryStats.totalProducts}
-            subtitle="Ready for production"
             icon={Package}
           />
           <StatsCard
             title="Total Units"
-            value={formatNumber(summaryStats.totalUnits)}
-            subtitle="Across all products"
+            value={summaryStats.totalUnits}
             icon={Layers}
           />
           <StatsCard
             title="Projected Value"
-            value={formatCurrency(summaryStats.totalProjectedValue)}
-            subtitle="Total revenue potential"
+            value={summaryStats.totalProjectedValue}
             icon={DollarSign}
           />
           <StatsCard
             title="High Production"
             value={summaryStats.highProduction}
-            subtitle="Products with surplus stock"
             icon={TrendingUp}
           />
         </div>
 
-        {/* Search and Filter */}
+        {/* Search */}
         <div className="mb-6">
           <ProductionSearchFilter
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            categories={categories}
+            selectedCategory=""
+            onCategoryChange={() => {}}
+            categories={[]}
           />
         </div>
 
-        {/* Results count */}
-        <div className="mb-4">
-          <p className="text-sm text-muted-foreground">
-            Showing <span className="font-semibold text-foreground">{filteredProducts.length}</span> of{' '}
-            <span className="font-semibold text-foreground">{mockProducts.length}</span> products
-          </p>
-        </div>
-
-        {/* Products Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
+          {products.map((product, index) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              index={index}
+            />
           ))}
         </div>
 
-        {/* Empty State */}
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-16 animate-fade-in">
-            <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-foreground mb-2">No products found</h3>
+        {products.length === 0 && (
+          <div className="text-center py-16">
+            <Package className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground">
-              Try adjusting your search or filter criteria
+              No products available for production
             </p>
           </div>
         )}
@@ -109,4 +88,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Production;

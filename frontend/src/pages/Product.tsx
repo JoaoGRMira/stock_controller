@@ -41,13 +41,15 @@ const Products = () => {
     }
   };
 
-  const handleDeleteClick = (id: string) => {
+  const handleDeleteClick = (id: number) => {
     const product = products.find((p) => p.id === id);
+
     if (product) {
       setProductToDelete(product);
       setDeleteDialogOpen(true);
     }
   };
+
 
   const handleConfirmDelete = () => {
     if (productToDelete) {

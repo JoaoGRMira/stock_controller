@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { Trash2, Package2 } from 'lucide-react';
-import { MaterialAssociation } from '@/types/inventory';
+import { Button } from "@/components/ui/button";
+import { Trash2, Package2 } from "lucide-react";
+import { ProductRawMaterial } from "@/types/inventory";
 import {
   Table,
   TableBody,
@@ -8,26 +8,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
 interface MaterialListProps {
-  associations: MaterialAssociation[];
-  onRemove: (id: string) => void;
+  associations: ProductRawMaterial[];
+  onRemove: (id: number) => void;
 }
 
-export function MaterialList({ associations, onRemove }: MaterialListProps) {
-  const totalCost = associations.reduce(
-    (sum, a) => sum + a.quantity * a.costPerUnit,
-    0
-  );
-
+export function MaterialList({
+  associations,
+  onRemove,
+}: MaterialListProps) {
   if (associations.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border py-12 animate-fade-in">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
           <Package2 className="h-6 w-6 text-muted-foreground" />
         </div>
-        <h3 className="mt-4 text-sm font-medium">No materials associated</h3>
+        <h3 className="mt-4 text-sm font-medium">
+          No materials associated
+        </h3>
         <p className="mt-1 text-sm text-muted-foreground">
           Add raw materials using the form above
         </p>
@@ -41,13 +41,19 @@ export function MaterialList({ associations, onRemove }: MaterialListProps) {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
-              <TableHead className="font-semibold">Material</TableHead>
-              <TableHead className="font-semibold text-right">Quantity</TableHead>
-              <TableHead className="font-semibold text-right">Unit Cost</TableHead>
-              <TableHead className="font-semibold text-right">Subtotal</TableHead>
+              <TableHead className="font-semibold">
+                Raw Material
+              </TableHead>
+              <TableHead className="font-semibold text-right">
+                Required Quantity
+              </TableHead>
+              <TableHead className="font-semibold text-right">
+                Available Stock
+              </TableHead>
               <TableHead className="w-[60px]" />
             </TableRow>
           </TableHeader>
+
           <TableBody>
             {associations.map((association, index) => (
               <TableRow
@@ -56,17 +62,19 @@ export function MaterialList({ associations, onRemove }: MaterialListProps) {
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <TableCell>
-                  <div className="font-medium">{association.materialName}</div>
+                  <div className="font-medium">
+                    {association.rawMaterial.name}
+                  </div>
                 </TableCell>
+
                 <TableCell className="text-right tabular-nums">
-                  {association.quantity} {association.unit}
+                  {association.requiredQuantity}
                 </TableCell>
+
                 <TableCell className="text-right tabular-nums text-muted-foreground">
-                  ${association.costPerUnit.toFixed(2)}
+                  {association.rawMaterial.quantity}
                 </TableCell>
-                <TableCell className="text-right tabular-nums font-medium">
-                  ${(association.quantity * association.costPerUnit).toFixed(2)}
-                </TableCell>
+
                 <TableCell>
                   <Button
                     variant="ghost"
@@ -85,13 +93,16 @@ export function MaterialList({ associations, onRemove }: MaterialListProps) {
 
       <div className="flex items-center justify-between rounded-xl bg-secondary px-5 py-4">
         <div>
-          <p className="text-sm text-secondary-foreground/70">Total Material Cost</p>
+          <p className="text-sm text-secondary-foreground/70">
+            Total Materials
+          </p>
           <p className="text-xs text-secondary-foreground/50">
-            {associations.length} material{associations.length !== 1 ? 's' : ''} associated
+            {associations.length} material
+            {associations.length !== 1 ? "s" : ""} associated
           </p>
         </div>
         <p className="text-2xl font-semibold text-secondary-foreground tabular-nums">
-          ${totalCost.toFixed(2)}
+          {associations.length}
         </p>
       </div>
     </div>
