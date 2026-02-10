@@ -1,35 +1,48 @@
-import { ProductHeader, RawMaterialsSection } from '@/components/';
-import { mockProduct, mockRawMaterials } from '@/data/mockData';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useProducts } from "@/hooks/useProducts";
+import { useMaterials } from "@/hooks/useMaterials";
+import { useProductMaterials } from "@/hooks/useProductRawMaterials";
+import { RawMaterialsSection } from "@/components/productRawMaterials/RawMaterialsSection";
+import { ProductHeader } from "@/components/productRawMaterials/ProductHeader";
 
 const ProductRawMaterial = () => {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+
+  const id = Number(productId);
+
+  const { products } = useProducts();
+  const product = products.find((p) => p.id === id);
+
+  const { materials } = useMaterials();
+  const { associations, addMaterial, removeMaterial } =
+    useProductMaterials(id);
+
+  if (!product) return null;
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <div className="mb-6 animate-fade-in">
-          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground -ml-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Products
-          </Button>
-        </div>
+      <div className="mx-auto max-w-5xl px-4 py-8">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-2 mb-6"
+          onClick={() => navigate("/products")}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Products
+        </Button>
 
-        {/* Main Content */}
-        <div className="space-y-6">
-          <ProductHeader product={mockProduct} />
-          
-          <RawMaterialsSection
-            initialAssociations={mockProduct.materials}
-            availableMaterials={mockRawMaterials}
-          />
-        </div>
+        <ProductHeader product={product} />
 
-        {/* Save Actions */}
-        <div className="mt-8 flex items-center justify-end gap-3 animate-fade-in" style={{ animationDelay: '200ms' }}>
-          <Button variant="outline">Cancel</Button>
-          <Button>Save Changes</Button>
-        </div>
+        <RawMaterialsSection
+          associations={associations}
+          availableMaterials={materials}
+          onAdd={addMaterial}
+          onRemove={removeMaterial}
+        />
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ export { ProductSearchFilter };
 import { DeleteConfirmDialog as DeleteProductConfirmDialog } from "./products/DeleteProductConfirmDialog";
 export { DeleteProductConfirmDialog };
 
-import { ProductCard } from "./production/productCard";
+import { ProductCard } from "./production/ProductCard";
 export { ProductCard };
 
 import { SearchFilter as ProductionSearchFilter } from "./production/SearchFilter";

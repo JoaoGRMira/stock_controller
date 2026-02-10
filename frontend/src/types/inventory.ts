@@ -1,26 +1,15 @@
 export interface RawMaterial {
-  id: string;
+  id: number;
   name: string;
-  unit: string;
-  availableStock: number;
-  costPerUnit: number;
-}
-
-export interface MaterialAssociation {
-  id: string;
-  materialId: string;
-  materialName: string;
   quantity: number;
-  unit: string;
-  costPerUnit: number;
+}
+export interface ProductRawMaterial {
+  id: number;
+  requiredQuantity: number;
+  rawMaterial: RawMaterial;
 }
 
-export interface Product {
-  id: string;
-  name: string;
-  sku: string;
-  description: string;
-  category: string;
-  status: 'active' | 'draft' | 'discontinued';
-  materials: MaterialAssociation[];
+export interface CreateProductRawMaterialDTO {
+  rawMaterialId: number;
+  requiredQuantity: number;
 }
