@@ -41,20 +41,22 @@ Built with **Java (REST API)** on the backend and **React + TypeScript** on the 
 
 Create a `.env` or `application.properties` file (depending on your setup) with your database configuration:
 
-```properties
+``` properties
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=products_db
 DB_USER=postgres
 DB_PASSWORD=postgres
+```
 
-Example for Quarkus / application.properties:
+### Example for Quarkus / application.properties:
 
-quarkus.datasource.db-kind=postgresql
+```quarkus.datasource.db-kind=postgresql
 quarkus.datasource.username=${DB_USER}
 quarkus.datasource.password=${DB_PASSWORD}
 quarkus.datasource.jdbc.url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
 quarkus.hibernate-orm.database.generation=update
+```
 
 ---
 
