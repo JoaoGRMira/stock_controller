@@ -1,0 +1,65 @@
+-- CREATE DATABASE production_db;
+
+-- \c production_db;
+
+CREATE TABLE product (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    price NUMERIC(12,2) NOT NULL CHECK (price >= 0)
+);
+
+
+
+CREATE TABLE raw_material (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    stock_quantity NUMERIC(12,2) NOT NULL CHECK (stock_quantity >= 0)
+);
+
+
+
+CREATE TABLE product_raw_material (
+    id BIGSERIAL PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    raw_material_id BIGINT NOT NULL,
+    required_quantity NUMERIC(12,2) NOT NULL CHECK (required_quantity > 0),
+
+    CONSTRAINT fk_prm_product
+        FOREIGN KEY (product_id)
+        REFERENCES product (id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_prm_raw_material
+        FOREIGN KEY (raw_material_id)
+        REFERENCES raw_material (id)
+        ON DELETE RESTRICT,
+
+    CONSTRAINT uk_product_raw_material
+        UNIQUE (product_id, raw_material_id)
+);
+
+
+
+CREATE INDEX idx_prm_product_id
+    ON product_raw_material (product_id);
+
+CREATE INDEX idx_prm_raw_material_id
+    ON product_raw_material (raw_material_id);
+
+
+
+INSERT INTO product (name, price)
+VALUES
+('Product A', 100.00),
+('Product B', 75.00);
+
+INSERT INTO raw_material (name, stock_quantity)
+VALUES
+('Steel', 50),
+('Plastic', 100);
+
+INSERT INTO product_raw_material (product_id, raw_material_id, required_quantity)
+VALUES
+(1, 1, 10),
+(1, 2, 5),
+(2, 1, 5);
