@@ -139,8 +139,7 @@ DELETE /products/{productId}/raw-materials/{id}
 
 ### Production
 
-```GET /production
-```
+`GET /production`
 
 Response example:
 
