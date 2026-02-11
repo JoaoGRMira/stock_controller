@@ -72,7 +72,7 @@ export function MaterialList({
                 </TableCell>
 
                 <TableCell className="text-right tabular-nums text-muted-foreground">
-                  {association.rawMaterial.quantity}
+                  {association.rawMaterial.stockQuantity}
                 </TableCell>
 
                 <TableCell>

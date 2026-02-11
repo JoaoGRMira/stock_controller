@@ -21,11 +21,9 @@ const materialSchema = z.object({
     .trim()
     .min(1, "Material name is required")
     .max(100, "Name must be less than 100 characters"),
-  quantity: z
+  stockQuantity: z
     .number({ invalid_type_error: "Quantity must be a number" })
-    .int("Quantity must be a whole number")
-    .min(0, "Quantity cannot be negative")
-    .max(1000000, "Quantity is too large"),
+    .min(0, "Quantity cannot be negative"),
 });
 
 interface MaterialFormDialogProps {
@@ -52,7 +50,7 @@ export function MaterialFormDialog({
     resolver: zodResolver(materialSchema),
     defaultValues: {
       name: "",
-      quantity: 0,
+      stockQuantity: 0,
     },
   });
 
@@ -60,7 +58,7 @@ export function MaterialFormDialog({
     if (open) {
       reset({
         name: material?.name ?? "",
-        quantity: material?.quantity ?? 0,
+        stockQuantity: material?.stockQuantity ?? 0,
       });
     }
   }, [open, material, reset]);
@@ -72,9 +70,9 @@ export function MaterialFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md animate-scale-in">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl">
+          <DialogTitle>
             {isEditing ? "Edit Material" : "Add New Material"}
           </DialogTitle>
           <DialogDescription>
@@ -86,42 +84,35 @@ export function MaterialFormDialog({
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-5 py-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium">
-              Material Name <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="name">Material Name</Label>
             <Input
               id="name"
-              placeholder="e.g., Steel Sheet (1mm)"
-              className="h-11"
+              placeholder="e.g., Steel Sheet"
               {...register("name")}
             />
             {errors.name && (
-              <p className="text-sm text-destructive animate-fade-in">
+              <p className="text-sm text-destructive">
                 {errors.name.message}
               </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="quantity" className="text-sm font-medium">
-              Stock Quantity <span className="text-destructive">*</span>
-            </Label>
+            <Label htmlFor="stockQuantity">Stock Quantity</Label>
             <Input
-              id="quantity"
+              id="stockQuantity"
               type="number"
               min={0}
-              placeholder="0"
-              className="h-11"
-              {...register("quantity", { valueAsNumber: true })}
+              {...register("stockQuantity", { valueAsNumber: true })}
             />
-            {errors.quantity && (
-              <p className="text-sm text-destructive animate-fade-in">
-                {errors.quantity.message}
+            {errors.stockQuantity && (
+              <p className="text-sm text-destructive">
+                {errors.stockQuantity.message}
               </p>
             )}
           </div>
 
-          <DialogFooter className="gap-2 pt-4">
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"

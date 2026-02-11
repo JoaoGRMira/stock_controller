@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "raw_material")
@@ -20,5 +21,7 @@ public class RawMaterial extends PanacheEntityBase {
     public BigDecimal stockQuantity;
 
     @OneToMany(mappedBy = "rawMaterial")
+    @JsonIgnore
     public List<ProductRawMaterial> products;
+
 }

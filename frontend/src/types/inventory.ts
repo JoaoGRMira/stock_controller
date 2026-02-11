@@ -1,7 +1,7 @@
 export interface RawMaterial {
   id: number;
   name: string;
-  quantity: number;
+  stockQuantity: number;
 }
 export interface ProductRawMaterial {
   id: number;
