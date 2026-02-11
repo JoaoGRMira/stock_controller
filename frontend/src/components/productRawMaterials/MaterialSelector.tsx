@@ -91,7 +91,7 @@ export function MaterialSelector({
                   <div className="flex justify-between gap-4">
                     <span>{material.name}</span>
                     <span className="text-xs text-muted-foreground">
-                      {material.quantity} in stock
+                      {material.stockQuantity} in stock
                     </span>
                   </div>
                 </SelectItem>
