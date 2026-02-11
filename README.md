@@ -17,6 +17,12 @@ Built with **Java (REST API)** on the backend and **React + TypeScript** on the 
 
 ---
 
+## Process Flowchart
+![Process Flowchart](src\stock-controller-diagram.drawio.png)
+
+## ERD Diagram
+![Entity-Relationship Diagram](src\stock-controller-ER.drawio.png)
+
 ## 🧱 Tech Stack
 
 ### Backend
