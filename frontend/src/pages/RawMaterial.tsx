@@ -86,13 +86,13 @@ const RawMaterial = () => {
           <div className="rounded-lg border bg-card p-4 shadow-soft">
             <p className="text-sm font-medium text-muted-foreground">Total Stock</p>
             <p className="text-2xl font-bold text-foreground">
-              {materials.reduce((sum, m) => sum + m.quantity, 0).toLocaleString()}
+              {materials.reduce((sum, m) => sum + m.stockQuantity, 0).toLocaleString()}
             </p>
           </div>
           <div className="rounded-lg border bg-card p-4 shadow-soft">
             <p className="text-sm font-medium text-muted-foreground">Low Stock Items</p>
             <p className="text-2xl font-bold text-destructive">
-              {materials.filter((m) => m.quantity <= 10).length}
+              {materials.filter((m) => m.stockQuantity <= 10).length}
             </p>
           </div>
         </div>

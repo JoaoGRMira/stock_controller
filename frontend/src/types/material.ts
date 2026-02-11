@@ -1,10 +1,10 @@
 export interface Material {
   id: number;
   name: string;
-  quantity: number;
+  stockQuantity: number;
 }
 
 export type MaterialFormData = {
   name: string;
-  quantity: number;
+  stockQuantity: number;
 };
