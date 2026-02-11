@@ -29,7 +29,7 @@ const ProductRawMaterial = () => {
           variant="ghost"
           size="sm"
           className="gap-2 mb-6"
-          onClick={() => navigate("/products")}
+          onClick={() => navigate("/")}
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Products

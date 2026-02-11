@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Product } from "@/types/product";
+import { useNavigate } from "react-router-dom";
 
 interface ProductTableProps {
   products: Product[];
@@ -16,12 +17,22 @@ interface ProductTableProps {
   onDelete: (id: number) => void;
 }
 
-export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) {
+export function ProductTable({
+  products,
+  onEdit,
+  onDelete,
+}: ProductTableProps) {
+  const navigate = useNavigate();
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
     }).format(price);
+  };
+
+  const handleNavigateToRawMaterials = (productId: number) => {
+    navigate(`/products/${productId}/raw-materials`);
   };
 
   if (products.length === 0) {
@@ -42,7 +53,9 @@ export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) 
             />
           </svg>
         </div>
-        <h3 className="text-lg font-medium text-foreground mb-1">No products found</h3>
+        <h3 className="text-lg font-medium text-foreground mb-1">
+          No products found
+        </h3>
         <p className="text-sm text-muted-foreground">
           Add your first product to get started
         </p>
@@ -57,16 +70,29 @@ export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) 
           <TableRow className="bg-muted/50 hover:bg-muted/50">
             <TableHead className="font-semibold">Product Name</TableHead>
             <TableHead className="font-semibold">Price</TableHead>
-            <TableHead className="text-right font-semibold">Actions</TableHead>
+            <TableHead className="text-right font-semibold">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {products.map((product) => (
             <TableRow key={product.id} className="group">
-              <TableCell className="font-medium">{product.name}</TableCell>
+              <TableCell className="font-medium">
+                <button
+                  onClick={() =>
+                    handleNavigateToRawMaterials(product.id)
+                  }
+                  className="text-primary hover:underline hover:text-primary/80 transition-colors"
+                >
+                  {product.name}
+                </button>
+              </TableCell>
+
               <TableCell className="text-muted-foreground">
                 {formatPrice(product.price)}
               </TableCell>
+
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button
@@ -78,6 +104,7 @@ export function ProductTable({ products, onEdit, onDelete }: ProductTableProps) 
                     <Pencil className="h-4 w-4" />
                     <span className="sr-only">Edit</span>
                   </Button>
+
                   <Button
                     variant="ghost"
                     size="icon"

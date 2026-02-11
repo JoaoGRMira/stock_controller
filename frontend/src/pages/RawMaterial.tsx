@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Plus, Package2 } from "lucide-react";
+import { Plus, Package2, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMaterials } from "@/hooks/useMaterials";
 import { Material, MaterialFormData } from "@/types/material";
 import { DeleteMaterialConfirmDialog, MaterialFormDialog, MaterialsTable, SearchBar } from "@/components";
+import { useNavigate } from "react-router-dom";
 
 const RawMaterial = () => {
+  const navigate = useNavigate();
+
   const {
     materials,
     searchQuery,
@@ -53,6 +56,15 @@ const RawMaterial = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-2 mb-6"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Products
+        </Button>
         {/* Header */}
         <div className="mb-8 animate-fade-in">
           <div className="flex items-center gap-3 mb-2">

@@ -29,11 +29,6 @@ export function ProductHeader({ product }: ProductHeaderProps) {
             </p>
           </div>
         </div>
-
-        <Button variant="outline" size="sm" className="gap-2">
-          <Edit2 className="h-4 w-4" />
-          Edit Product
-        </Button>
       </div>
     </div>
   );

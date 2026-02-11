@@ -1,12 +1,16 @@
-import { Package, DollarSign, Layers, TrendingUp } from "lucide-react";
+import { Package, DollarSign, Layers, TrendingUp, ArrowLeft } from "lucide-react";
 import {
   StatsCard,
   ProductCard,
   ProductionSearchFilter,
 } from "@/components";
 import { useProduction } from "@/hooks/useProduction";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Production = () => {
+  const navigate = useNavigate();
+
   const {
     products,
     isLoading,
@@ -22,6 +26,15 @@ const Production = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-2 mb-6"
+          onClick={() => navigate("/")}
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Products
+        </Button>
         <header className="mb-8">
           <h1 className="text-display">Production Dashboard</h1>
           <p className="text-muted-foreground mt-2">

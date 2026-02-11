@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { Plus, Package } from "lucide-react";
+import { Plus, Package, Boxes, Factory } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProductTable, ProductForm, ProductSearchFilter, DeleteProductConfirmDialog} from "@/components";
+import { ProductTable, ProductForm, ProductSearchFilter, DeleteProductConfirmDialog } from "@/components";
 import { useProducts } from "@/hooks/useProducts";
 import { Product } from "@/types/product";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
+  const navigate = useNavigate();
+
   const {
     products,
     totalCount,
@@ -49,7 +52,6 @@ const Products = () => {
       setDeleteDialogOpen(true);
     }
   };
-
 
   const handleConfirmDelete = () => {
     if (productToDelete) {
@@ -106,10 +108,29 @@ const Products = () => {
         {/* Actions Bar */}
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
           <ProductSearchFilter value={searchQuery} onChange={setSearchQuery} />
-          <Button onClick={() => setFormOpen(true)} className="sm:ml-auto">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Product
-          </Button>
+
+          <div className="flex gap-2 sm:ml-auto">
+            <Button
+              variant="outline"
+              onClick={() => navigate("/production")}
+            >
+              <Factory className="h-4 w-4 mr-2" />
+              Production
+            </Button>
+
+            <Button
+              variant="outline"
+              onClick={() => navigate("/raw-materials")}
+            >
+              <Boxes className="h-4 w-4 mr-2" />
+              Raw Materials
+            </Button>
+
+            <Button onClick={() => setFormOpen(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Product
+            </Button>
+          </div>
         </div>
 
         {/* Products Table */}
